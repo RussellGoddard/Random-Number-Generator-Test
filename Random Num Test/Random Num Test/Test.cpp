@@ -1,23 +1,10 @@
 #include <iostream>
-#include <random>
 #include <climits>
+#include "GetRandom.h"
 
 using std::cout;
 using std::endl;
 
-//function to return a random integer based on a given min and max range
-//seed random generator
-std::random_device rand_dev;
-std::mt19937 generator(rand_dev());
-
-int GetRandom(int min, int max)
-{
-	int random = 0; //initialize an int for us to return
-	std::uniform_int_distribution<int> distr(min, max);
-	random = distr(generator);
-
-	return random;
-}
 
 
 int main() {
@@ -76,16 +63,20 @@ int main() {
 
 
 	//test 50 random numbers 50-23 purposely wrong
-	//crashed the program so commented out
+	//modified to throw an invalid_arguement exception if this case happens
+	try {
+		cout << "\n\n" << "Test: 50-23" << endl;
+		for (int i = 0; i < 49; ++i) {
+			int a = INT_MIN;
 
-	/*cout << "\n\n" << "Test: 50-23" << endl;
-	for (int i = 0; i < 49; ++i) {
-	int a = INT_MIN;
+			a = GetRandom(50, 23);
 
-	a = GetRandom(50, 23);
-
-	cout << a << ' ';
-	}*/
+			cout << a << ' ';
+		}
+	} 
+	catch (std::invalid_argument e) {
+		cout << e.what() << endl;
+	}
 
 	//test 10 random numbers INT_MIN-INT_MAX
 	cout << "\n\n" << "Test: INT_MIN-INT_MAX" << endl;
